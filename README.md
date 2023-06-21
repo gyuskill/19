@@ -30,3 +30,20 @@ nw_diff
 * Exception 처리를 개선하여 예외상황에 대한 안정성을 높임
 -> `select_backup_files` 함수와 `select_backup_date` 함수에서 입력값 검증과 예외 처리를 통해 프로그램의 안정성을 높임
 
+테스트
+
+1. unittest 모듈을 사용하여 테스트 
+2. 각 기능별 테스트
+* `test_get_scp_back_dir` : `get_scp_back_dir` 함수를 테스트
+-> `@patch` 데코레이터를 사용하여 `os.listdir` 함수를 가상화(Mocking)
+-> `['not_scp_backup_from-', 'scp_backup_from-1', 'scp_backup_from-2']` 리스트 반환
+-> 반환값이 기대하는 값인 `['scp_backup_from-1', 'scp_backup_from-2']`와 동일한지 확인
+
+* `test_get_scp_back_date` : `get_scp_back_date` 테스트
+-> `os.listdir` 함수를 가상화
+-> `['file-running-config-20230101_01', 'file-running-config-20230102_02']` 리스트 반환
+-> 반환값이 기대하는 값인 `['20230101', '20230102']`와 동일한지 확인
+
+* `test_get_file_date`: `get_file_date` 테스트
+-> `get_file_date('file-running-config-20230101_010203')`를 호출
+-> 반환값이 기대하는 값인 `datetime.datetime(2023, 1, 1, 1, 2, 3)`와 동일한지 확인
